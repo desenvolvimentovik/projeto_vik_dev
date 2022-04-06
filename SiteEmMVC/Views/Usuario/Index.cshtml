@@ -1,0 +1,71 @@
+﻿
+@model List<UsuarioModel>
+@{
+    ViewData["Title"] = "Listagem de Usuario";
+}
+<div>
+<div class="d-grid gap-2 d-md-flex justify-content-md-start">
+    <a class = "btn btn-success" asp-controller="Usuario" asp-action="Criar" role="button">Adicionar novo usuário</a>
+    </div>
+
+
+<br>
+
+
+    @if(TempData["MensagemSucesso"] != null)
+    {
+        <div class="alert alert-success" role="alert">
+        <button type = "button" class="btn btn-danger btn-sm close-alert" arial-label="Close" >X</button>
+                    @TempData["MenssagemSucesso"]
+        </div>
+    }
+       
+     @if(TempData["MensagemErro"] != null)
+    {
+        <div class="alert alert-danger" role="alert">
+    <button type = "button" class="btn btn-danger btn-sm close-alert" arial-label="Close" >X</button>
+                    @TempData["MensagemErro"]
+        </div>
+
+    }
+
+<h1 class ="display-4">Listagem de Usuário </h1>
+<br/>
+
+<table id="table-contatos" class="display" style="width:100%">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Nome</th>
+      <th scope="col">Login</th>
+      <th scope="col">Email</th>
+      <th scope="col">Perfil</th>
+      <th scope="col">Data de Cadastro</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (UsuarioModel usuario in Model)
+                {
+                    <tr>
+                      <th scope="row">@usuario.Id </th>
+                      <td>@usuario.Nome</td>
+                      <td>@usuario.Login</td>
+                      <td>@usuario.Email</td>
+                      <td>@(usuario.Perfil == SiteEmMVC.Enum.PerfilEnum.Admin ? "Admin": "Padrão")</td>
+                       <td>@usuario.DataCadastro</td>
+                      <td>
+
+                        <div class="btn-group" role="group">
+                        <a role="button" asp-action="Editar" asp-controller="Usuario" asp-route-id="@usuario.Id" class="btn btn-primary">Editar</a>
+                        <a role="button" asp-action="ApagarConfirmacao" asp-controller="Usuario" asp-route-id="@usuario.Id" class="btn btn-danger">Apagar</a>
+                      </div>
+                      </td>
+                      </tr>
+                }
+            }
+        </tbody>
+</table>
+</div>
